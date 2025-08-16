@@ -1,9 +1,7 @@
-
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import { dummyRoutes } from '@/data/routes';
 import { Route } from '@/types';
 import { RouteCard } from '@/components/RouteCard';
 import { SearchFilter } from '@/components/SearchFilter';
@@ -17,7 +15,17 @@ const MapView = dynamic(() => import('@/components/MapView'), {
 });
 
 export default function Home() {
-  const [selectedRoute, setSelectedRoute] = useState<Route | null>(dummyRoutes[0]);
+  const [routes, setRoutes] = useState<Route[]>([]);
+  const [selectedRoute, setSelectedRoute] = useState<Route | null>(null);
+
+  useEffect(() => {
+    // In a real application, you would fetch data from an API here.
+    // For now, we'll just initialize with no routes.
+    // e.g., fetch('/api/routes').then(res => res.json()).then(data => {
+    //   setRoutes(data);
+    //   setSelectedRoute(data[0] || null);
+    // });
+  }, []);
 
   const handleSelectRoute = (route: Route) => {
     setSelectedRoute(route);
@@ -42,14 +50,18 @@ export default function Home() {
               <CardTitle>おすすめルート</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {dummyRoutes.map((route) => (
-                <RouteCard
-                  key={route.id}
-                  route={route}
-                  isSelected={selectedRoute?.id === route.id}
-                  onSelectRoute={handleSelectRoute}
-                />
-              ))}
+              {routes.length > 0 ? (
+                routes.map((route) => (
+                  <RouteCard
+                    key={route.id}
+                    route={route}
+                    isSelected={selectedRoute?.id === route.id}
+                    onSelectRoute={handleSelectRoute}
+                  />
+                ))
+              ) : (
+                <p className="text-muted-foreground">利用可能なルートはありません。</p>
+              )}
             </CardContent>
           </Card>
         </div>

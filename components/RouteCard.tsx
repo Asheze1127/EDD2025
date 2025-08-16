@@ -38,9 +38,8 @@ export function RouteCard({ route, isSelected, onSelectRoute }: RouteCardProps) 
           <Image
             src={imageUrl} // Assuming dummy data has valid image paths like /images/route1.jpg
             alt={name}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-t-lg"
+            fill
+            className="object-cover rounded-t-lg"
             // Add a placeholder if images are not available
             onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/400x200?text=Chill+Walk'; }}
           />

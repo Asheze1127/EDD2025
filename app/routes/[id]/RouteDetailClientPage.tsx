@@ -31,9 +31,8 @@ export default function RouteDetailClientPage({ route }: RouteDetailClientPagePr
         <Image
           src={imageUrl}
           alt={name}
-          layout="fill"
-          objectFit="cover"
-          className="z-0"
+          fill
+          className="object-cover z-0"
           onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/1200x400?text=Chill+Walk'; }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -67,8 +66,8 @@ export default function RouteDetailClientPage({ route }: RouteDetailClientPagePr
                     <Image 
                       src={spot.images[0] || 'https://via.placeholder.com/150'}
                       alt={spot.name}
-                      layout="fill"
-                      objectFit="cover"
+                      fill
+                      className="object-cover"
                       onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/150?text=Spot'; }}
                     />
                   </div>

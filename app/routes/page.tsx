@@ -1,18 +1,19 @@
-
 'use client';
 
 import Link from 'next/link';
-import { dummyRoutes } from '@/data/routes';
 import { RouteCard } from '@/components/RouteCard';
 import { SearchFilter } from '@/components/SearchFilter';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Route } from '@/types';
 
 export default function RoutesPage() {
-  // In a real app, you'd have filtering logic here.
-  // For now, we just display all routes.
-  const [routes, setRoutes] = useState<Route[]>(dummyRoutes);
+  const [routes, setRoutes] = useState<Route[]>([]);
   const [selectedRouteId, setSelectedRouteId] = useState<string | null>(null);
+
+  useEffect(() => {
+    // In a real app, you would fetch data from an API here.
+    // e.g., fetch('/api/routes').then(res => res.json()).then(setRoutes);
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -32,16 +33,19 @@ export default function RoutesPage() {
         {/* Right Panel: Route List */}
         <main className="flex-1">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {routes.map((route) => (
-              <Link href={`/routes/${route.id}`} key={route.id}>
-                <RouteCard
-                  route={route}
-                  // A dummy isSelected prop, can be removed or used for other UI feedback
-                  isSelected={selectedRouteId === route.id} 
-                  onSelectRoute={() => setSelectedRouteId(route.id)}
-                />
-              </Link>
-            ))}
+            {routes.length > 0 ? (
+              routes.map((route) => (
+                <Link href={`/routes/${route.id}`} key={route.id}>
+                  <RouteCard
+                    route={route}
+                    isSelected={selectedRouteId === route.id} 
+                    onSelectRoute={() => setSelectedRouteId(route.id)}
+                  />
+                </Link>
+              ))
+            ) : (
+              <p className="text-muted-foreground col-span-full text-center">利用可能なルートはありません。</p>
+            )}
           </div>
         </main>
       </div>
