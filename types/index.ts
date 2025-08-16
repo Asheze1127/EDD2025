@@ -1,69 +1,35 @@
-export interface Route {
-  id: string;
-  name: string;
-  description: string;
-  distance: number; // km
-  duration: number; // minutes
-  difficulty: 'easy' | 'moderate' | 'hard';
-  rating: number; // 1-5
-  likes: number;
-  seasonalSuitability: ('spring' | 'summer' | 'autumn' | 'winter')[];
-  temperatureSuitability: ('hot' | 'warm' | 'mild' | 'cool' | 'cold')[];
-  startPoint: {
-    lat: number;
-    lng: number;
-    name: string;
-  };
-  endPoint: {
-    lat: number;
-    lng: number;
-    name: string;
-  };
-  waypoints: {
-    lat: number;
-    lng: number;
-    name?: string;
-  }[];
-  spots: Spot[];
-  tags: string[];
-  createdAt: string;
-  author: string;
-  imageUrl: string;
-}
+
+import { LatLngExpression } from 'leaflet';
+
+export type Season = 'Spring' | 'Summer' | 'Autumn' | 'Winter';
+
+export type Climate = 'Hot Day' | 'Cold Day' | 'Comfortable';
+
+export type SpotType = 'Cafe' | 'Park' | 'Bench' | 'Viewpoint' | 'Shop';
 
 export interface Spot {
   id: string;
   name: string;
-  type: 'cafe' | 'park' | 'bench' | 'viewpoint' | 'restroom' | 'shop' | 'shrine' | 'other';
+  type: SpotType;
+  location: {
+    lat: number;
+    lng: number;
+  };
   description: string;
-  lat: number;
-  lng: number;
-  rating?: number;
-  imageUrl?: string;
-  openHours?: string;
-  tags: string[];
+  images: string[];
 }
 
-export interface FilterOptions {
-  distance: string; // 'all' | '0-2' | '2-5' | '5-10' | '10+'
-  season: string; // 'all' | 'spring' | 'summer' | 'autumn' | 'winter'
-  temperature: string; // 'all' | 'hot' | 'warm' | 'mild' | 'cool' | 'cold'
-  duration: string; // 'all' | '0-30' | '30-60' | '60-120' | '120+'
-  spots: string; // 'all' | 'cafe' | 'park' | 'viewpoint' | etc.
-}
-
-export interface WeatherData {
-  temperature: number;
-  condition: string;
-  humidity: number;
-  windSpeed: number;
-  uvIndex: number;
-  season: 'spring' | 'summer' | 'autumn' | 'winter';
-}
-
-export interface UserPreferences {
-  preferredDistance: number;
-  preferredDuration: number;
-  favoriteSpotTypes: string[];
-  temperaturePreference: string;
+export interface Route {
+  id: string;
+  name: string;
+  description: string;
+  distance: number; // in kilometers
+  duration: number; // in minutes
+  path: LatLngExpression[];
+  seasons: Season[];
+  climates: Climate[];
+  spots: Spot[];
+  rating: number;
+  likes: number;
+  imageUrl: string;
 }

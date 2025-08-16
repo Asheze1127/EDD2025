@@ -1,80 +1,71 @@
-"use client";
 
-import { useState } from 'react';
+'use client';
+
 import Link from 'next/link';
-import { MapPin, Menu, X, Search, Star, TrendingUp } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Leaf, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
+
+const navigation = [
+  { name: 'ホーム', href: '/' },
+  { name: 'ルート一覧', href: '/routes' },
+  { name: 'ランキング', href: '/ranking' },
+];
 
 export function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const navigation = [
-    { name: 'ホーム', href: '/', icon: MapPin },
-    { name: 'ルート一覧', href: '/routes', icon: Search },
-    { name: 'ランキング', href: '/ranking', icon: TrendingUp },
-  ];
+  const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-green-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="flex items-center justify-center w-8 h-8 bg-green-600 rounded-full">
-              <MapPin className="h-4 w-4 text-white" />
-            </div>
-            <span className="text-xl font-bold text-green-800">Chill Walk</span>
-          </Link>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 max-w-screen-2xl items-center">
+        {/* Logo */}
+        <Link href="/" className="mr-6 flex items-center space-x-2">
+          <Leaf className="h-6 w-6 text-primary" />
+          <span className="font-bold sm:inline-block">Chill Walk</span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-green-600 transition-colors"
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                'transition-colors hover:text-foreground/80',
+                pathname === item.href ? 'text-foreground' : 'text-foreground/60'
+              )}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
 
-          {/* Mobile Navigation */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="md:hidden">
+        {/* Mobile Navigation */}
+        <div className="flex flex-1 items-center justify-end md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">メニューを開く</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <div className="flex flex-col space-y-4 mt-8">
-                <div className="flex items-center space-x-2 mb-6">
-                  <div className="flex items-center justify-center w-8 h-8 bg-green-600 rounded-full">
-                    <MapPin className="h-4 w-4 text-white" />
-                  </div>
-                  <span className="text-xl font-bold text-green-800">Chill Walk</span>
-                </div>
-                
-                {navigation.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                    >
-                      <Icon className="h-5 w-5" />
-                      <span>{item.name}</span>
-                    </Link>
-                  );
-                })}
+            <SheetContent side="right">
+              <Link href="/" className="mr-6 flex items-center space-x-2 mb-6">
+                <Leaf className="h-6 w-6 text-primary" />
+                <span className="font-bold">Chill Walk</span>
+              </Link>
+              <div className="flex flex-col space-y-3">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
               </div>
             </SheetContent>
           </Sheet>

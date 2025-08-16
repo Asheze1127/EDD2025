@@ -1,326 +1,137 @@
+
 import { Route } from '@/types';
 
-export const routes: Route[] = [
+export const dummyRoutes: Route[] = [
   {
     id: '1',
-    name: '桜並木の春散歩コース',
-    description: '美しい桜並木を楽しめる春の定番散歩コース。途中にはおしゃれなカフェや休憩スポットも充実。',
-    distance: 2.3,
-    duration: 35,
-    difficulty: 'easy',
-    rating: 4.7,
-    likes: 124,
-    seasonalSuitability: ['spring', 'autumn'],
-    temperatureSuitability: ['mild', 'warm', 'cool'],
-    startPoint: {
-      lat: 35.6762,
-      lng: 139.6503,
-      name: '恵比寿駅'
-    },
-    endPoint: {
-      lat: 35.6850,
-      lng: 139.6550,
-      name: '目黒川河畔'
-    },
-    waypoints: [
-      { lat: 35.6800, lng: 139.6520, name: '恵比寿ガーデンプレイス' },
-      { lat: 35.6830, lng: 139.6535, name: '目黒川沿い' }
+    name: '春の小川と桜並木ルート',
+    description: '春の訪れを感じながら、小川のせせらぎと満開の桜並木を楽しめる癒やしのルートです。写真撮影にも最適です。',
+    distance: 3.5,
+    duration: 45,
+    path: [
+      [35.681236, 139.767125], // Tokyo Station
+      [35.685175, 139.752799], // Chidorigafuchi
+      [35.693825, 139.755094], // Yasukuni Shrine
     ],
+    seasons: ['Spring'],
+    climates: ['Comfortable'],
     spots: [
       {
-        id: 's1',
-        name: 'スターバックス 恵比寿ガーデンプレイス店',
-        type: 'cafe',
-        description: '大きな窓から桜を眺められる人気カフェ',
-        lat: 35.6802,
-        lng: 139.6518,
-        rating: 4.5,
-        tags: ['桜', 'テラス席', 'WiFi']
+        id: 'spot-1',
+        name: '千鳥ヶ淵緑道',
+        type: 'Viewpoint',
+        location: { lat: 35.685175, lng: 139.752799 },
+        description: '都内屈指の桜の名所。ボートに乗りながらのお花見も楽しめます。',
+        images: ['/images/spot1.jpg'],
       },
       {
-        id: 's2',
-        name: '目黒川桜並木',
-        type: 'viewpoint',
-        description: '東京屈指の桜の名所、春には多くの人で賑わう',
-        lat: 35.6825,
-        lng: 139.6540,
-        rating: 4.8,
-        tags: ['桜', '写真スポット', '春限定']
+        id: 'spot-2',
+        name: 'Sizzle Cafe',
+        type: 'Cafe',
+        location: { lat: 35.688, lng: 139.754 },
+        description: '散歩の休憩に最適な、静かで落ち着いた雰囲気のカフェです。',
+        images: ['/images/spot2.jpg'],
       },
-      {
-        id: 's3',
-        name: '恵比寿公園',
-        type: 'park',
-        description: '小さいながらも緑豊かな憩いの公園',
-        lat: 35.6815, 
-        lng: 139.6525,
-        rating: 4.2,
-        tags: ['休憩', 'ベンチ', '緑']
-      }
     ],
-    tags: ['桜', '春', 'カフェ', '写真映え', '都市部'],
-    createdAt: '2024-03-15',
-    author: 'さくらウォーカー',
-    imageUrl: 'https://images.pexels.com/photos/2070033/pexels-photo-2070033.jpeg'
+    rating: 4.8,
+    likes: 1200,
+    imageUrl: '/images/route1.jpg',
   },
   {
-    id: '2', 
-    name: '涼しい森林浴コース',
-    description: '夏の暑さを忘れられる、緑陰豊かな森林散歩コース。マイナスイオンたっぷりで癒し効果抜群。',
-    distance: 3.1,
-    duration: 50,
-    difficulty: 'moderate',
-    rating: 4.6,
-    likes: 89,
-    seasonalSuitability: ['summer', 'spring', 'autumn'],
-    temperatureSuitability: ['hot', 'warm', 'mild'],
-    startPoint: {
-      lat: 35.7219,
-      lng: 139.7966,
-      name: '上野駅'
-    },
-    endPoint: {
-      lat: 35.7267,
-      lng: 139.7942,
-      name: '不忍池'
-    },
-    waypoints: [
-      { lat: 35.7180, lng: 139.7730, name: '上野公園入口' },
-      { lat: 35.7200, lng: 139.7750, name: '東照宮' }
+    id: '2',
+    name: '夏の木陰とクールスポット巡り',
+    description: '暑い夏の日でも涼しく快適に歩ける、木陰の多い公園とクールな商業施設を巡るルートです。',
+    distance: 4.2,
+    duration: 60,
+    path: [
+      [35.658581, 139.701321], // Shibuya Station
+      [35.66582, 139.69938],   // Yoyogi Park
+      [35.671522, 139.708983], // Omotesando Hills
     ],
+    seasons: ['Summer'],
+    climates: ['Hot Day'],
     spots: [
       {
-        id: 's4',
-        name: '上野の森',
-        type: 'park',
-        description: '都心とは思えない豊かな緑に包まれた森',
-        lat: 35.7190,
-        lng: 139.7740,
-        rating: 4.7,
-        tags: ['森林', '涼しい', 'マイナスイオン']
+        id: 'spot-3',
+        name: '代々木公園',
+        type: 'Park',
+        location: { lat: 35.66582, lng: 139.69938 },
+        description: '広大な敷地と豊かな緑が広がる都会のオアシス。木陰で涼むのに最適です。',
+        images: ['/images/spot3.jpg'],
       },
       {
-        id: 's5',
-        name: '不忍池カフェ',
-        type: 'cafe',
-        description: '池を眺めながらゆっくりできるカフェ',
-        lat: 35.7260,
-        lng: 139.7930,
-        rating: 4.3,
-        tags: ['池ビュー', 'テラス', '休憩']
-      }
+        id: 'spot-4',
+        name: '表参道ヒルズ',
+        type: 'Shop',
+        location: { lat: 35.671522, lng: 139.708983 },
+        description: '涼しい屋内でショッピングやアートを楽しめる複合施設。',
+        images: ['/images/spot4.jpg'],
+      },
     ],
-    tags: ['森林浴', '夏', '涼しい', '自然', '癒し'],
-    createdAt: '2024-06-20',
-    author: '森の案内人',
-    imageUrl: 'https://images.pexels.com/photos/957024/forest-trees-perspective-bright-957024.jpeg'
+    rating: 4.5,
+    likes: 980,
+    imageUrl: '/images/route2.jpg',
   },
   {
     id: '3',
-    name: '紅葉めぐりコース',
-    description: '秋の美しい紅葉を満喫できる散歩コース。カメラ持参必須の絶景スポットが点在。',
+    name: '秋の紅葉と芸術散歩',
+    description: '美しい紅葉に染まる公園を散策し、美術館で芸術の秋を堪能する知的なルートです。',
     distance: 2.8,
-    duration: 45,
-    difficulty: 'easy',
-    rating: 4.8,
-    likes: 156,
-    seasonalSuitability: ['autumn'],
-    temperatureSuitability: ['cool', 'mild'],
-    startPoint: {
-      lat: 35.6586,
-      lng: 139.7454,
-      name: '表参道駅'
-    },
-    endPoint: {
-      lat: 35.6625,
-      lng: 139.7345,
-      name: '明治神宮外苑'
-    },
-    waypoints: [
-      { lat: 35.6600, lng: 139.7400, name: '表参道ヒルズ' },
-      { lat: 35.6610, lng: 139.7380, name: '神宮前交差点' }
+    duration: 40,
+    path: [
+      [35.71503, 139.77526],  // Ueno Station
+      [35.71611, 139.77222],  // Ueno Park
+      [35.71861, 139.775],    // Tokyo National Museum
     ],
+    seasons: ['Autumn'],
+    climates: ['Comfortable'],
     spots: [
       {
-        id: 's6',
-        name: '神宮外苑いちょう並木',
-        type: 'viewpoint',
-        description: '東京の紅葉の代表的スポット、黄金のトンネルが美しい',
-        lat: 35.6620,
-        lng: 139.7350,
-        rating: 4.9,
-        tags: ['紅葉', 'いちょう', '写真スポット', '秋限定']
+        id: 'spot-5',
+        name: '上野恩賜公園',
+        type: 'Park',
+        location: { lat: 35.71611, lng: 139.77222 },
+        description: '広大な敷地に美術館や動物園が点在し、秋には見事な紅葉が楽しめます。',
+        images: ['/images/spot5.jpg'],
       },
-      {
-        id: 's7',
-        name: 'ブルーシール アイスクリーム',
-        type: 'shop',
-        description: '散歩の休憩にぴったりなアイスクリーム店',
-        lat: 35.6605,
-        lng: 139.7390,
-        rating: 4.4,
-        tags: ['アイス', '休憩', 'おやつ']
-      }
     ],
-    tags: ['紅葉', '秋', '写真映え', 'いちょう', '絶景'],
-    createdAt: '2024-11-10',
-    author: '紅葉ハンター',
-    imageUrl: 'https://images.pexels.com/photos/1526/autumn-tree-red-season.jpg'
+    rating: 4.7,
+    likes: 1500,
+    imageUrl: '/images/route3.jpg',
   },
   {
     id: '4',
-    name: '海辺の朝活コース',
-    description: '朝の清々しい海風を感じながら歩ける爽快コース。朝活やジョギングにも最適。',
-    distance: 4.2,
-    duration: 60,
-    difficulty: 'moderate',
-    rating: 4.5,
-    likes: 98,
-    seasonalSuitability: ['spring', 'summer', 'autumn'],
-    temperatureSuitability: ['mild', 'warm', 'cool'],
-    startPoint: {
-      lat: 35.6298,
-      lng: 139.7965,
-      name: '豊洲駅'
-    },
-    endPoint: {
-      lat: 35.6256,
-      lng: 139.7817,
-      name: 'お台場海浜公園'
-    },
-    waypoints: [
-      { lat: 35.6280, lng: 139.7900, name: '豊洲市場' },
-      { lat: 35.6270, lng: 139.7850, name: 'レインボーブリッジ下' }
+    name: '冬のイルミネーションと温かいカフェ',
+    description: '寒い冬の夜を彩る美しいイルミネーションを楽しみ、温かい飲み物で心も体も温まるルートです。',
+    distance: 2.5,
+    duration: 35,
+    path: [
+      [35.6695, 139.7635],   // Ginza Station
+      [35.6741, 139.762],    // Marunouchi Naka-dori
+      [35.6812, 139.7671],   // Tokyo Station
     ],
+    seasons: ['Winter'],
+    climates: ['Cold Day'],
     spots: [
       {
-        id: 's8',
-        name: '豊洲市場見学デッキ',
-        type: 'viewpoint',
-        description: '活気ある市場の様子を見学できるスポット',
-        lat: 35.6285,
-        lng: 139.7895,
-        rating: 4.3,
-        tags: ['市場', '朝', '見学']
+        id: 'spot-6',
+        name: '丸の内仲通り',
+        type: 'Viewpoint',
+        location: { lat: 35.6741, lng: 139.762 },
+        description: '冬にはシャンパンゴールドのイルミネーションが輝き、幻想的な雰囲気に包まれます。',
+        images: ['/images/spot6.jpg'],
       },
       {
-        id: 's9',
-        name: 'お台場海浜公園',
-        type: 'park',
-        description: '東京湾を一望できる人工砂浜のある公園',
-        lat: 35.6250,
-        lng: 139.7810,
-        rating: 4.6,
-        tags: ['海', 'ビーチ', '絶景', 'ランニング']
-      }
+        id: 'spot-7',
+        name: 'Hot & Cold Cafe',
+        type: 'Cafe',
+        location: { lat: 35.68, lng: 139.765 },
+        description: '特製のホットチョコレートが人気の、居心地の良いカフェです。',
+        images: ['/images/spot7.jpg'],
+      },
     ],
-    tags: ['海', '朝活', 'ジョギング', '絶景', '爽快'],
-    createdAt: '2024-07-05',
-    author: '朝活マスター',
-    imageUrl: 'https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg'
+    rating: 4.9,
+    likes: 2100,
+    imageUrl: '/images/route4.jpg',
   },
-  {
-    id: '5',
-    name: '歴史探訪コース',
-    description: '古い神社仏閣を巡りながら日本の歴史を感じられる文化的散歩コース。',
-    distance: 3.5,
-    duration: 70,
-    difficulty: 'moderate',
-    rating: 4.4,
-    likes: 76,
-    seasonalSuitability: ['spring', 'autumn', 'winter'],
-    temperatureSuitability: ['mild', 'cool', 'cold'],
-    startPoint: {
-      lat: 35.7148,
-      lng: 139.7967,
-      name: '浅草駅'
-    },
-    endPoint: {
-      lat: 35.7101,
-      lng: 139.8107,
-      name: '東京スカイツリー'
-    },
-    waypoints: [
-      { lat: 35.7148, lng: 139.7966, name: '浅草寺' },
-      { lat: 35.7120, lng: 139.8000, name: '隅田川沿い' }
-    ],
-    spots: [
-      {
-        id: 's10',
-        name: '浅草寺',
-        type: 'shrine',
-        description: '東京最古の寺院、雷門で有名な観光名所',
-        lat: 35.7147,
-        lng: 139.7965,
-        rating: 4.7,
-        tags: ['歴史', '寺院', '文化', '観光']
-      },
-      {
-        id: 's11',
-        name: '仲見世通り',
-        type: 'shop',
-        description: '伝統的なお土産や和菓子が楽しめる商店街',
-        lat: 35.7145,
-        lng: 139.7963,
-        rating: 4.5,
-        tags: ['お土産', '和菓子', '伝統', 'ショッピング']
-      }
-    ],
-    tags: ['歴史', '文化', '寺院', '伝統', '観光'],
-    createdAt: '2024-04-12',
-    author: '歴史愛好家',
-    imageUrl: 'https://images.pexels.com/photos/208701/pexels-photo-208701.jpeg'
-  },
-  {
-    id: '6',
-    name: '夜景散歩コース',
-    description: '東京の美しい夜景を楽しみながら歩ける大人のための散歩コース。',
-    distance: 2.1,
-    duration: 40,
-    difficulty: 'easy',
-    rating: 4.6,
-    likes: 112,
-    seasonalSuitability: ['spring', 'summer', 'autumn', 'winter'],
-    temperatureSuitability: ['mild', 'cool', 'cold'],
-    startPoint: {
-      lat: 35.6598,
-      lng: 139.7006,
-      name: '六本木駅'
-    },
-    endPoint: {
-      lat: 35.6654,
-      lng: 139.7297,
-      name: '東京タワー'
-    },
-    waypoints: [
-      { lat: 35.6620, lng: 139.7100, name: '六本木ヒルズ' },
-      { lat: 35.6640, lng: 139.7200, name: '麻布十番' }
-    ],
-    spots: [
-      {
-        id: 's12',
-        name: '六本木ヒルズ展望台',
-        type: 'viewpoint',
-        description: '東京を一望できる人気の展望スポット',
-        lat: 35.6619,
-        lng: 139.7106,
-        rating: 4.8,
-        tags: ['夜景', '展望台', 'デート', '絶景']
-      },
-      {
-        id: 's13',
-        name: '東京タワー',
-        type: 'viewpoint',
-        description: 'ライトアップされた東京タワーは夜が特に美しい',
-        lat: 35.6586,
-        lng: 139.7454,
-        rating: 4.7,
-        tags: ['夜景', 'ライトアップ', 'ランドマーク', 'ロマンチック']
-      }
-    ],
-    tags: ['夜景', 'デート', 'ロマンチック', '都市', 'ライトアップ'],
-    createdAt: '2024-08-18',
-    author: '夜景コレクター',
-    imageUrl: 'https://images.pexels.com/photos/2410616/pexels-photo-2410616.jpeg'
-  }
 ];

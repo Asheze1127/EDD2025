@@ -1,4 +1,5 @@
 import './globals.css';
+import 'leaflet/dist/leaflet.css';
 import type { Metadata } from 'next';
 import { Inter, Noto_Sans_JP } from 'next/font/google';
 import { Header } from '@/components/Header';
@@ -23,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={`${inter.className} ${notoSansJP.className}`}>
+      <body className={notoSansJP.className}>
         <Header />
         <main className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
           {children}
