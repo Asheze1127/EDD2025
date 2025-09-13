@@ -1,19 +1,60 @@
-'use client';
-
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
+
 import { RouteCard } from '@/components/RouteCard';
 import { SearchFilter } from '@/components/SearchFilter';
-import { useState, useEffect } from 'react';
-import { Route } from '@/types';
+import { RouteWithProfile } from '@/types';
 
-export default function RoutesPage() {
-  const [routes, setRoutes] = useState<Route[]>([]);
-  const [selectedRouteId, setSelectedRouteId] = useState<string | null>(null);
+export const revalidate = 0; // Ensure dynamic rendering
 
-  useEffect(() => {
-    // In a real app, you would fetch data from an API here.
-    // e.g., fetch('/api/routes').then(res => res.json()).then(setRoutes);
-  }, []);
+interface RoutesPageProps {
+  searchParams: {
+    q?: string;
+    season?: string;
+    climate?: string;
+  };
+}
+
+export default async function RoutesPage({ searchParams }: RoutesPageProps) {
+  const cookieStore = cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+      },
+    }
+  );
+
+  // --- Supabase Query Construction ---
+  let query = supabase
+    .from('routes')
+    .select(`
+      *,
+      profiles ( username )
+    `)
+    .order('created_at', { ascending: false });
+
+  if (searchParams.q) {
+    query = query.ilike('name', `%${searchParams.q}%`);
+  }
+  if (searchParams.season) {
+    query = query.contains('seasons', [searchParams.season]);
+  }
+  if (searchParams.climate) {
+    query = query.contains('climates', [searchParams.climate]);
+  }
+
+  const { data: routes, error } = await query as { data: RouteWithProfile[], error: any };
+
+  if (error) {
+    console.error('Error fetching routes:', error);
+    // You might want to render an error component here
+  }
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -25,28 +66,25 @@ export default function RoutesPage() {
       </header>
 
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Left Panel: Filters */}
         <aside className="w-full lg:w-1/4 lg:sticky top-20 h-fit">
           <SearchFilter />
         </aside>
 
-        {/* Right Panel: Route List */}
         <main className="flex-1">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {routes.length > 0 ? (
-              routes.map((route) => (
-                <Link href={`/routes/${route.id}`} key={route.id}>
-                  <RouteCard
-                    route={route}
-                    isSelected={selectedRouteId === route.id} 
-                    onSelectRoute={() => setSelectedRouteId(route.id)}
-                  />
+          {routes && routes.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {routes.map((route) => (
+                <Link href={`/routes/${route.id}`} key={route.id} className="no-underline">
+                  <RouteCard route={route} />
                 </Link>
-              ))
-            ) : (
-              <p className="text-muted-foreground col-span-full text-center">利用可能なルートはありません。</p>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16 border-2 border-dashed rounded-lg">
+              <h3 className="text-xl font-semibold">ルートが見つかりません</h3>
+              <p className="text-muted-foreground mt-2">検索条件を変更してみてください。</p>
+            </div>
+          )}
         </main>
       </div>
     </div>

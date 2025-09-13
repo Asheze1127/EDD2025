@@ -31,5 +31,17 @@ export interface Route {
   spots: Spot[];
   rating: number;
   likes: number;
-  imageUrl: string;
+  image_url: string;
 }
+
+export type Profile = {
+  id: string;
+  username: string;
+  avatar_url: string;
+  updated_at: string;
+};
+
+// `routes`テーブルと`profiles`テーブルを結合したときの型
+export type RouteWithProfile = Route & { 
+  profiles: Pick<Profile, 'username'> | null;
+};

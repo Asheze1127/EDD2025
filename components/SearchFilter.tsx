@@ -1,22 +1,38 @@
-
 'use client';
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
 } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { Button } from '@/components/ui/button';
 import { Filter } from 'lucide-react';
 
+// 選択肢の定数
+const seasons = ['春', '夏', '秋', '冬'];
+const climates = ['暑い日', '快適', '寒い日'];
+
 export function SearchFilter() {
-  // Note: In a real application, you would lift the state up to the parent component.
-  // For this refactoring, we keep it simple.
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const handleFilterChange = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (value && value !== 'all') {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleSearch = useDebouncedCallback((term: string) => {
+    handleFilterChange('q', term);
+  }, 300);
 
   return (
     <Card>
@@ -28,43 +44,44 @@ export function SearchFilter() {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="distance">距離 (km)</Label>
-          <Slider defaultValue={[5]} max={20} step={1} id="distance" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="duration">所要時間 (分)</Label>
-          <Slider defaultValue={[60]} max={180} step={10} id="duration" />
+          <Label htmlFor="search">キーワード</Label>
+          <Input 
+            id="search"
+            placeholder='例: 公園, 桜, 夜景'
+            defaultValue={searchParams.get('q') || ''}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="season">季節</Label>
-          <Select>
+          <Select 
+            defaultValue={searchParams.get('season') || 'all'}
+            onValueChange={(value) => handleFilterChange('season', value)}
+          >
             <SelectTrigger id="season">
               <SelectValue placeholder="すべての季節" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">すべての季節</SelectItem>
-              <SelectItem value="spring">春</SelectItem>
-              <SelectItem value="summer">夏</SelectItem>
-              <SelectItem value="autumn">秋</SelectItem>
-              <SelectItem value="winter">冬</SelectItem>
+              {seasons.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
           <Label htmlFor="climate">気候</Label>
-          <Select>
+          <Select
+            defaultValue={searchParams.get('climate') || 'all'}
+            onValueChange={(value) => handleFilterChange('climate', value)}
+          >
             <SelectTrigger id="climate">
               <SelectValue placeholder="すべての気候" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">すべての気候</SelectItem>
-              <SelectItem value="hot">暑い日</SelectItem>
-              <SelectItem value="comfortable">快適</SelectItem>
-              <SelectItem value="cold">寒い日</SelectItem>
+              {climates.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
-        <Button className="w-full">検索</Button>
       </CardContent>
     </Card>
   );
